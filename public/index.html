@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investor Advisory Demo</title>
+<style>
+body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+.container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; }
+h2 { margin-top: 30px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+th, td { border: 1px solid #ccc; padding: 8px; }
+th { background: #eee; }
+select, input { width: 100%; margin-bottom: 10px; padding: 5px; }
+button { padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5px; border: none; background: #007BFF; color: #fff; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Investor Advisory Demo</h1>
+
+  <label>Name: <input type="text" id="name" value="Rahul Sharma"></label>
+
+  <label>Age Group:
+    <select id="ageGroup">
+      <option value="Under 30">Under 30</option>
+      <option value="31 to 40" selected>31 to 40</option>
+      <option value="41 to 50">41 to 50</option>
+      <option value="51 to 60">51 to 60</option>
+      <option value="Over 60">Over 60</option>
+    </select>
+  </label>
+
+  <label>Investment Horizon:
+    <select id="investmentHorizon">
+      <option value="Less than year">Less than year</option>
+      <option value="1 to 3 years">1 to 3 years</option>
+      <option value="3 to 7 years">3 to 7 years</option>
+      <option value="More than 7 years" selected>More than 7 years</option>
+    </select>
+  </label>
+
+  <label>Annual Investment Amount:
+    <select id="investmentAmount">
+      <option value="Less than INR 1,00,000">Less than INR 1,00,000</option>
+      <option value="INR 1,00,000 – INR 5,00,000">INR 1,00,000 – INR 5,00,000</option>
+      <option value="INR 5,00,000 – INR 10,00,000">INR 5,00,000 – INR 10,00,000</option>
+      <option value="More than INR 10,00,000" selected>More than INR 10,00,000</option>
+    </select>
+  </label>
+
+  <label>Expected Income Growth:
+    <select id="incomeGrowth">
+      <option value="Slower than inflation">Slower than inflation</option>
+      <option value="At about the same rate as inflation">At about the same rate as inflation</option>
+      <option value="Much quicker than inflation" selected>Much quicker than inflation</option>
+      <option value="Unpredictable and potentially changing continuously">Unpredictable</option>
+    </select>
+  </label>
+
+  <label>Insurance Coverage:
+    <select id="insurance">
+      <option value="Almost none">Almost none</option>
+      <option value="Some">Some</option>
+      <option value="Considerable" selected>Considerable</option>
+      <option value="Almost everything">Almost everything</option>
+    </select>
+  </label>
+
+  <label>Current Investments Value:
+    <select id="currentInvestment">
+      <option value="Half my yearly income">Half my yearly income</option>
+      <option value="Equal to my yearly income">Equal to my yearly income</option>
+      <option value="Double my yearly income" selected>Double my yearly income</option>
+      <option value="Triple my yearly income">Triple my yearly income</option>
+      <option value="More than triple my yearly income">More than triple my yearly income</option>
+    </select>
+  </label>
+
+  <label>Risk Perception:
+    <select id="riskPerception">
+      <option value="Danger">Danger</option>
+      <option value="Uncertainty">Uncertainty</option>
+      <option value="Opportunity" selected>Opportunity</option>
+      <option value="Thrill">Thrill</option>
+    </select>
+  </label>
+
+  <label>Market Reaction:
+    <select id="marketReaction">
+      <option value="Very pessimistic">Very pessimistic</option>
+      <option value="Somewhat pessimistic">Somewhat pessimistic</option>
+      <option value="Somewhat optimistic" selected>Somewhat optimistic</option>
+      <option value="Very optimistic">Very optimistic</option>
+    </select>
+  </label>
+
+  <label>Risk Attitude:
+    <select id="riskAttitude">
+      <option value="I get a thrill from taking risks">I get a thrill from taking risks</option>
+      <option value="I enjoy taking risks">I enjoy taking risks</option>
+      <option value="I evaluate very carefully before taking risks" selected>I evaluate carefully</option>
+      <option value="I prefer to stay away from risks">I prefer to stay away</option>
+    </select>
+  </label>
+
+  <label>Decision Reaction:
+    <select id="decisionReaction">
+      <option value="Very concerned and likely to sell">Very concerned and likely to sell</option>
+      <option value="Likely to sell if lose 5%">Likely to sell if lose 5%</option>
+      <option value="Wait at least a year" selected>Wait at least a year</option>
+      <option value="Stick to long-term plan">Stick to long-term plan</option>
+    </select>
+  </label>
+
+  <button onclick="generateAdvisory()">Generate Advisory</button>
+
+  <div id="output" style="display:none;">
+    <h2>Investor Profile</h2>
+    <p><strong>Name:</strong> <span id="outName"></span></p>
+    <p><strong>Age Group:</strong> <span id="outAge"></span></p>
+    <p><strong>Risk Category:</strong> <span id="outRisk"></span></p>
+    <p><strong>Total Score:</strong> <span id="outScore"></span></p>
+
+    <h2>📝 Summary</h2>
+    <p><strong>Risk Tolerance:</strong> <span id="outRiskTol"></span></p>
+    <p><strong>Investment Horizon:</strong> <span id="outHorizon"></span></p>
+    <p><strong>Income Need:</strong> <span id="outIncome"></span></p>
+
+    <h2>💼 Current Allocation</h2>
+    <table id="currentAllocation"><thead><tr><th>Asset Class</th><th>Allocation %</th><th>Comments</th></tr></thead><tbody></tbody></table>
+
+    <h2>🎯 Suggested Allocation</h2>
+    <table id="suggestedAllocation"><thead><tr><th>Asset Class</th><th>Recommended %</th><th>Reasoning</th></tr></thead><tbody></tbody></table>
+
+    <h2>✅ Action Recommendations</h2>
+    <ul id="actionList"></ul>
+  </div>
+</div>
+
+<script>
+function calculateScore() {
+  // Simple demo: add scores for each input
+  return 42; // Replace with real calculation
+}
+function mapScoreToCategory(score) {
+  if(score <=28) return "Conservative";
+  if(score <=37) return "Moderately Conservative";
+  if(score <=46) return "Moderate";
+  if(score <=56) return "Moderately Aggressive";
+  return "Aggressive";
+}
+
+async function generateAdvisory() {
+  const name = document.getElementById("name").value;
+  const questionnaireInputs = {
+    ageGroup: document.getElementById("ageGroup").value,
+    investmentHorizon: document.getElementById("investmentHorizon").value,
+    investmentAmount: document.getElementById("investmentAmount").value,
+    incomeGrowth: document.getElementById("incomeGrowth").value,
+    insurance: document.getElementById("insurance").value,
+    currentInvestment: document.getElementById("currentInvestment").value,
+    riskPerception: document.getElementById("riskPerception").value,
+    marketReaction: document.getElementById("marketReaction").value,
+    riskAttitude: document.getElementById("riskAttitude").value,
+    decisionReaction: document.getElementById("decisionReaction").value
+  };
+
+  const totalScore = calculateScore();
+  const riskCategory = mapScoreToCategory(totalScore);
+
+  const res = await fetch("/generate-advisory", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, questionnaireInputs, totalScore, riskCategory })
+  });
+
+  const data = await res.json();
+  const advisory = data.advisory;
+
+  document.getElementById("outName").textContent = advisory.investorProfile.name;
+  document.getElementById("outAge").textContent = advisory.investorProfile.ageGroup;
+  document.getElementById("outRisk").textContent = advisory.investorProfile.riskCategory;
+  document.getElementById("outScore").textContent = advisory.investorProfile.totalScore;
+
+  document.getElementById("outRiskTol").textContent = advisory.summary.riskTolerance;
+  document.getElementById("outHorizon").textContent = advisory.summary.investmentHorizon;
+  document.getElementById("outIncome").textContent = advisory.summary.incomeNeed;
+
+  const tbody = document.querySelector("#currentAllocation tbody");
+  tbody.innerHTML = "";
+  advisory.portfolioAdvisory.currentAllocation.forEach(a => {
+    tbody.innerHTML += `<tr><td>${a.assetClass}</td><td>${a.allocationPercent}%</td><td>${a.comments}</td></tr>`;
+  });
+
+  const tbody2 = document.querySelector("#suggestedAllocation tbody");
+  tbody2.innerHTML = "";
+  advisory.portfolioAdvisory.suggestedAllocation.forEach(a => {
+    tbody2.innerHTML += `<tr><td>${a.assetClass}</td><td>${a.recommendedPercent}%</td><td>${a.reasoning}</td></tr>`;
+  });
+
+  const ul = document.getElementById("actionList");
+  ul.innerHTML = "";
+  advisory.actionRecommendations.forEach(a => { ul.innerHTML += `<li>${a}</li>`; });
+
+  document.getElementById("output").style.display = "block";
+}
+</script>
+</body>
+</html>
