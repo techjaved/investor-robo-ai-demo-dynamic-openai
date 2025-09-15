@@ -13,6 +13,23 @@ th, td { border: 1px solid #ccc; padding: 8px; }
 th { background: #eee; }
 select, input { width: 100%; margin-bottom: 10px; padding: 5px; }
 button { padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5px; border: none; background: #007BFF; color: #fff; }
+button:disabled { background: #6c757d; cursor: not-allowed; }
+
+/* Loader */
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #007BFF;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: none; /* hidden by default */
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
@@ -113,7 +130,8 @@ button { padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5p
     </select>
   </label>
 
-  <button onclick="generateAdvisory()">Generate Advisory</button>
+  <button id="generateBtn" onclick="generateAdvisory()">Generate Advisory</button>
+  <div class="loader" id="loader"></div>
 
   <div id="output" style="display:none;">
     <h2>Investor Profile</h2>
@@ -140,7 +158,6 @@ button { padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5p
 
 <script>
 function calculateScore() {
-  // Simple demo: add scores for each input
   return 42; // Replace with real calculation
 }
 function mapScoreToCategory(score) {
@@ -152,58 +169,74 @@ function mapScoreToCategory(score) {
 }
 
 async function generateAdvisory() {
-  const name = document.getElementById("name").value;
-  const questionnaireInputs = {
-    ageGroup: document.getElementById("ageGroup").value,
-    investmentHorizon: document.getElementById("investmentHorizon").value,
-    investmentAmount: document.getElementById("investmentAmount").value,
-    incomeGrowth: document.getElementById("incomeGrowth").value,
-    insurance: document.getElementById("insurance").value,
-    currentInvestment: document.getElementById("currentInvestment").value,
-    riskPerception: document.getElementById("riskPerception").value,
-    marketReaction: document.getElementById("marketReaction").value,
-    riskAttitude: document.getElementById("riskAttitude").value,
-    decisionReaction: document.getElementById("decisionReaction").value
-  };
+  const loader = document.getElementById("loader");
+  const btn = document.getElementById("generateBtn");
 
-  const totalScore = calculateScore();
-  const riskCategory = mapScoreToCategory(totalScore);
+  loader.style.display = "block";
+  btn.disabled = true;
+  btn.textContent = "Loading...";
+  document.getElementById("output").style.display = "none";
 
-  const res = await fetch("/generate-advisory", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, questionnaireInputs, totalScore, riskCategory })
-  });
+  try {
+    const name = document.getElementById("name").value;
+    const questionnaireInputs = {
+      ageGroup: document.getElementById("ageGroup").value,
+      investmentHorizon: document.getElementById("investmentHorizon").value,
+      investmentAmount: document.getElementById("investmentAmount").value,
+      incomeGrowth: document.getElementById("incomeGrowth").value,
+      insurance: document.getElementById("insurance").value,
+      currentInvestment: document.getElementById("currentInvestment").value,
+      riskPerception: document.getElementById("riskPerception").value,
+      marketReaction: document.getElementById("marketReaction").value,
+      riskAttitude: document.getElementById("riskAttitude").value,
+      decisionReaction: document.getElementById("decisionReaction").value
+    };
 
-  const data = await res.json();
-  const advisory = data.advisory;
+    const totalScore = calculateScore();
+    const riskCategory = mapScoreToCategory(totalScore);
 
-  document.getElementById("outName").textContent = advisory.investorProfile.name;
-  document.getElementById("outAge").textContent = advisory.investorProfile.ageGroup;
-  document.getElementById("outRisk").textContent = advisory.investorProfile.riskCategory;
-  document.getElementById("outScore").textContent = advisory.investorProfile.totalScore;
+    const res = await fetch("/generate-advisory", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, questionnaireInputs, totalScore, riskCategory })
+    });
 
-  document.getElementById("outRiskTol").textContent = advisory.summary.riskTolerance;
-  document.getElementById("outHorizon").textContent = advisory.summary.investmentHorizon;
-  document.getElementById("outIncome").textContent = advisory.summary.incomeNeed;
+    const data = await res.json();
+    const advisory = data.advisory;
 
-  const tbody = document.querySelector("#currentAllocation tbody");
-  tbody.innerHTML = "";
-  advisory.portfolioAdvisory.currentAllocation.forEach(a => {
-    tbody.innerHTML += `<tr><td>${a.assetClass}</td><td>${a.allocationPercent}%</td><td>${a.comments}</td></tr>`;
-  });
+    document.getElementById("outName").textContent = advisory.investorProfile.name;
+    document.getElementById("outAge").textContent = advisory.investorProfile.ageGroup;
+    document.getElementById("outRisk").textContent = advisory.investorProfile.riskCategory;
+    document.getElementById("outScore").textContent = advisory.investorProfile.totalScore;
 
-  const tbody2 = document.querySelector("#suggestedAllocation tbody");
-  tbody2.innerHTML = "";
-  advisory.portfolioAdvisory.suggestedAllocation.forEach(a => {
-    tbody2.innerHTML += `<tr><td>${a.assetClass}</td><td>${a.recommendedPercent}%</td><td>${a.reasoning}</td></tr>`;
-  });
+    document.getElementById("outRiskTol").textContent = advisory.summary.riskTolerance;
+    document.getElementById("outHorizon").textContent = advisory.summary.investmentHorizon;
+    document.getElementById("outIncome").textContent = advisory.summary.incomeNeed;
 
-  const ul = document.getElementById("actionList");
-  ul.innerHTML = "";
-  advisory.actionRecommendations.forEach(a => { ul.innerHTML += `<li>${a}</li>`; });
+    const tbody = document.querySelector("#currentAllocation tbody");
+    tbody.innerHTML = "";
+    advisory.portfolioAdvisory.currentAllocation.forEach(a => {
+      tbody.innerHTML += `<tr><td>${a.assetClass}</td><td>${a.allocationPercent}%</td><td>${a.comments}</td></tr>`;
+    });
 
-  document.getElementById("output").style.display = "block";
+    const tbody2 = document.querySelector("#suggestedAllocation tbody");
+    tbody2.innerHTML = "";
+    advisory.portfolioAdvisory.suggestedAllocation.forEach(a => {
+      tbody2.innerHTML += `<tr><td>${a.assetClass}</td><td>${a.recommendedPercent}%</td><td>${a.reasoning}</td></tr>`;
+    });
+
+    const ul = document.getElementById("actionList");
+    ul.innerHTML = "";
+    advisory.actionRecommendations.forEach(a => { ul.innerHTML += `<li>${a}</li>`; });
+
+    document.getElementById("output").style.display = "block";
+  } catch (err) {
+    alert("Something went wrong while generating advisory.");
+  } finally {
+    loader.style.display = "none";
+    btn.disabled = false;
+    btn.textContent = "Generate Advisory";
+  }
 }
 </script>
 </body>
