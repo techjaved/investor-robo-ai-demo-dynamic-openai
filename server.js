@@ -18,24 +18,51 @@ app.post("/generate-advisory", async (req, res) => {
     const { name, questionnaireInputs, totalScore, riskCategory } = req.body;
 
     const prompt = `
-You are a financial advisor.
-User info:
-Name: ${name}
-Risk Category: ${riskCategory}
-Total Score: ${totalScore}
+You are an expert financial advisor. Analyze the investor’s responses and provide a structured, personalized investment advisory.
 
-Questionnaire Inputs: ${JSON.stringify(questionnaireInputs)}
+User Information:
+- Name: ${name}
+- Risk Category: ${riskCategory}
+- Total Score: ${totalScore}
 
-Generate a detailed advisory report in strict JSON format with this structure (do NOT include any markdown or backticks):
+Questionnaire Responses:
+${JSON.stringify(questionnaireInputs, null, 2)}
 
+Scoring System Recap:
+- 1–28 Points: Conservative Investor → Capital preservation, low tolerance for risk, needs liquidity.
+- 29–37 Points: Moderately Conservative Investor → Preserves capital, steady growth, low volatility.
+- 38–46 Points: Moderate Investor → Balanced growth, moderate fluctuations, medium-term horizon.
+- 47–56 Points: Moderately Aggressive Investor → Growth-focused, tolerates market fluctuations, 5+ years horizon.
+- >56 Points: Aggressive Investor → Maximum growth, tolerates high volatility, 10+ years horizon.
+
+Important Instructions:
+- Output must be in strict JSON (no markdown, no backticks).
+- Tailor portfolio allocations and recommendations according to risk profile and questionnaire answers.
+- Keep allocations realistic (sum of suggestedAllocation should ~100%).
+- Action recommendations should be practical and investor-friendly.
+
+JSON Schema:
 {
-  "investorProfile": { "name": "", "ageGroup": "", "riskCategory": "", "totalScore": 0 },
-  "summary": { "riskTolerance": "", "investmentHorizon": "", "incomeNeed": "" },
-  "portfolioAdvisory": { 
-    "currentAllocation": [{ "assetClass": "", "allocationPercent": 0, "comments": "" }],
-    "suggestedAllocation": [{ "assetClass": "", "recommendedPercent": 0, "reasoning": "" }]
+  "investorProfile": {
+    "name": string,
+    "ageGroup": string,
+    "riskCategory": string,
+    "totalScore": number
   },
-  "actionRecommendations": []
+  "summary": {
+    "riskTolerance": string,
+    "investmentHorizon": string,
+    "incomeNeed": string
+  },
+  "portfolioAdvisory": {
+    "currentAllocation": [
+      { "assetClass": string, "allocationPercent": number, "comments": string }
+    ],
+    "suggestedAllocation": [
+      { "assetClass": string, "recommendedPercent": number, "reasoning": string }
+    ]
+  },
+  "actionRecommendations": [string]
 }
 `;
 
