@@ -192,7 +192,7 @@ async function generateAdvisory() {
       questionnaireInputs[sel.id] = sel.value;
     });
 
-    const res = await fetch("http://localhost:3050/generate-advisory", {
+    const res = await fetch("/generate-advisory", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, questionnaireInputs, totalScore, riskCategory })
