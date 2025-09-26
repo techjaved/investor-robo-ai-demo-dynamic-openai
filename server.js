@@ -30,45 +30,46 @@ User Information:
 Questionnaire Responses:
 ${JSON.stringify(questionnaireInputs, null, 2)}
 
-
-
 Important Instructions:
 - Respond only in JSON format as per the schema below.
-- Always include estimated current allocation if no value provided for it and suggested allocations.
-- Do not include any explanations or additional text outside the JSON structure.
-- Ensure the JSON is well-formed and valid.
-- Use clear and concise language in comments and reasoning.
-- Avoid overly technical jargon; keep it accessible for a general audience.
-- Output must be in strict JSON (no markdown, no backticks).
-- Tailor portfolio allocations and recommendations according to risk profile and questionnaire answers.
-- Keep allocations realistic (sum of suggestedAllocation should ~100%).
 - Action recommendations should be practical and investor-friendly.
 - Create a brief asset allocation across these 6 asset classes - ETFs, MFs, FDs, Corporate bonds, Government schemes, Digital Gold
 
 JSON Schema:
 {
-  "investorProfile": {
-    "name": string,
-    "ageGroup": string,
-    "riskCategory": string,
-    "totalScore": number
-  },
-  "summary": {
-    "riskTolerance": string,
-    "investmentHorizon": string,
-    "incomeNeed": string
-  },
-  "portfolioAdvisory": {
-    "currentAllocation": [
-      { "assetClass": string, "allocationPercent": number, "comments": string }
+  "portfolio": {
+    "investor_profile": {
+      "age": "integer",
+      "investment_corpus_in_inr": "number",
+      "time_horizon_years": "integer",
+      "risk_profile": "string",
+      "income_growth_vs_inflation": "string",
+      "insurance_status": "string"
+    },
+    "asset_allocation": [
+      {
+        "asset_class": "string",
+        "allocation_percent": "number",
+        "allocation_in_inr": "number",
+        "rationale": "string"
+      }
     ],
-    "suggestedAllocation": [
-      { "assetClass": string, "recommendedPercent": number, "reasoning": string }
-    ]
-  },
-  // "actionRecommendations": [string]
+    "expected_return_range": {
+      "min_cagr_percent": "number",
+      "max_cagr_percent": "number",
+      "explanation": "string"
+    },
+    "logic_summary": {
+      "diversification": "string",
+      "risk_adjusted_return": "string",
+      "downside_protection": "string",
+      "profile_fit": "string"
+    }
+  }
 }
+
 `;
+
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",

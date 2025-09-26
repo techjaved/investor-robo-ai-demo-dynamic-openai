@@ -1,250 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Investor Advisory Demo</title>
-<style>
-body { font-family: Arial; padding: 20px; background: #f4f4f4; }
-.container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; }
-h2 { margin-top: 30px; }
-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-th, td { border: 1px solid #ccc; padding: 8px; }
-th { background: #eee; }
-select, input { width: 100%; margin-bottom: 10px; padding: 5px; }
-button { padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5px; border: none; background: #007BFF; color: #fff; }
-button:disabled { background: #6c757d; cursor: not-allowed; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Investor Advisory Demo</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+        background: #f4f4f4;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      h2 {
+        margin-top: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+      }
+      th {
+        background: #eee;
+      }
+      select,
+      input {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 5px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+        background: #007bff;
+        color: #fff;
+      }
+      button:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
 
-/* Loader */
-.loader {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #007BFF;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
-  display: none;
-}
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-</style>
-</head>
-<body>
-<div class="container">
-  <h1>Investor Advisory Demo</h1>
+      /* Loader */
+      .loader {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #007bff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+        display: none;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Investor Advisory Demo</h1>
 
-  <label>Name: <input type="text" id="name" value="Rahul Sharma"></label>
+      <label>Name: <input type="text" id="name" value="Rahul Sharma" /></label>
 
-  <label>How old are you?
-    <select id="ageGroup">
-      <option value="Under 30" data-points="17">Under 30</option>
-      <option value="31 to 40" data-points="12">31 to 40</option>
-      <option value="41 to 50" data-points="9">41 to 50</option>
-      <option value="51 to 60" data-points="1">51 to 60</option>
-      <option value="Over 60" data-points="0">Over 60</option>
-    </select>
-  </label>
+      <label
+        >How old are you?
+        <select id="ageGroup">
+          <option value="Under 30" data-points="17">Under 30</option>
+          <option value="31 to 40" data-points="12">31 to 40</option>
+          <option value="41 to 50" data-points="9">41 to 50</option>
+          <option value="51 to 60" data-points="1">51 to 60</option>
+          <option value="Over 60" data-points="0">Over 60</option>
+        </select>
+      </label>
 
-  <label>How long can you keep your money invested before withdrawing it?
-    <select id="investmentHorizon">
-      <option value="Less than 1 year" data-points="1">Less than 1 year</option>
-      <option value="1 to 3 years" data-points="4">1 to 3 years</option>
-      <option value="3 to 7 years" data-points="8">3 to 7 years</option>
-      <option value="More than 7 years" data-points="16" selected>More than 7 years</option>
-    </select>
-  </label>
+      <label
+        >How long can you keep your money invested before withdrawing it?
+        <select id="investmentHorizon">
+          <option value="Less than 1 year" data-points="1">
+            Less than 1 year
+          </option>
+          <option value="1 to 3 years" data-points="4">1 to 3 years</option>
+          <option value="3 to 7 years" data-points="8">3 to 7 years</option>
+          <option value="More than 7 years" data-points="16" selected>
+            More than 7 years
+          </option>
+        </select>
+      </label>
 
-  <label>If you have current investments, what is the value of those investments?
-    <select id="currentInvestment">
-      <option value="Half my yearly income" data-points="0">Half my yearly income</option>
-      <option value="Equal to my yearly income" data-points="2">Equal to my yearly income</option>
-      <option value="Double my yearly income" data-points="3">Double my yearly income</option>
-      <option value="Triple my yearly income" data-points="10">Triple my yearly income</option>
-      <option value="More than triple my yearly income" data-points="17">More than triple my yearly income</option>
-    </select>
-  </label>
+      <label
+        >If you have current investments, what is the value of those
+        investments?
+        <select id="currentInvestment">
+          <option value="Half my yearly income" data-points="0">
+            Half my yearly income
+          </option>
+          <option value="Equal to my yearly income" data-points="2">
+            Equal to my yearly income
+          </option>
+          <option value="Double my yearly income" data-points="3">
+            Double my yearly income
+          </option>
+          <option value="Triple my yearly income" data-points="10">
+            Triple my yearly income
+          </option>
+          <option value="More than triple my yearly income" data-points="17">
+            More than triple my yearly income
+          </option>
+        </select>
+      </label>
 
-  <label>How much do you expect your income to grow in the next few years?
-    <select id="incomeGrowth">
-      <option value="Slower than inflation" data-points="1">Slower than inflation</option>
-      <option value="At about the same rate as inflation" data-points="3">At about the same rate as inflation</option>
-      <option value="Much quicker than inflation" data-points="8">Much quicker than inflation</option>
-      <option value="Unpredictable" data-points="0">Unpredictable and potentially changing continuously</option>
-    </select>
-  </label>
+      <label
+        >How much do you expect your income to grow in the next few years?
+        <select id="incomeGrowth">
+          <option value="Slower than inflation" data-points="1">
+            Slower than inflation
+          </option>
+          <option value="At about the same rate as inflation" data-points="3">
+            At about the same rate as inflation
+          </option>
+          <option value="Much quicker than inflation" data-points="8">
+            Much quicker than inflation
+          </option>
+          <option value="Unpredictable" data-points="0">
+            Unpredictable and potentially changing continuously
+          </option>
+        </select>
+      </label>
 
-  <label>How much insurance do you currently have?
-    <select id="insurance">
-      <option value="Almost none" data-points="0">Almost none</option>
-      <option value="Some" data-points="4">Some</option>
-      <option value="Considerable" data-points="7">Considerable</option>
-      <option value="Almost everything" data-points="10">Almost everything</option>
-    </select>
-  </label>
+      <label
+        >How much insurance do you currently have?
+        <select id="insurance">
+          <option value="Almost none" data-points="0">Almost none</option>
+          <option value="Some" data-points="4">Some</option>
+          <option value="Considerable" data-points="7">Considerable</option>
+          <option value="Almost everything" data-points="10">
+            Almost everything
+          </option>
+        </select>
+      </label>
 
-  <label>What is your Annual Investment Corpus?
-    <select id="investmentAmount">
-      <option value="Less than INR 1,00,000" data-points="0">Less than INR 1,00,000</option>
-      <option value="INR 1,00,000 – INR 5,00,000" data-points="1">INR 1,00,000 – INR 5,00,000</option>
-      <option value="INR 5,00,000 – INR 10,00,000" data-points="2">INR 5,00,000 – INR 10,00,000</option>
-      <option value="More than INR 10,00,000" data-points="6">More than INR 10,00,000</option>
-    </select>
-  </label>
+      <label
+        >What is your Annual Investment Corpus?
+        <select id="investmentAmount">
+          <option value="Less than INR 1,00,000" data-points="0">
+            Less than INR 1,00,000
+          </option>
+          <option value="INR 1,00,000 – INR 5,00,000" data-points="1">
+            INR 1,00,000 – INR 5,00,000
+          </option>
+          <option value="INR 5,00,000 – INR 10,00,000" data-points="2">
+            INR 5,00,000 – INR 10,00,000
+          </option>
+          <option value="More than INR 10,00,000" data-points="6">
+            More than INR 10,00,000
+          </option>
+        </select>
+      </label>
 
-  <label>When you think of the word "risk," which comes to mind first?
-    <select id="riskPerception">
-      <option value="Danger" data-points="0">Danger</option>
-      <option value="Uncertainty" data-points="1">Uncertainty</option>
-      <option value="Opportunity" data-points="3">Opportunity</option>
-      <option value="Thrill" data-points="6">Thrill</option>
-    </select>
-  </label>
+      <label
+        >When you think of the word "risk," which comes to mind first?
+        <select id="riskPerception">
+          <option value="Danger" data-points="0">Danger</option>
+          <option value="Uncertainty" data-points="1">Uncertainty</option>
+          <option value="Opportunity" data-points="3">Opportunity</option>
+          <option value="Thrill" data-points="6">Thrill</option>
+        </select>
+      </label>
 
-  <label>How do you usually feel about major financial decisions after making them?
-    <select id="marketReaction">
-      <option value="Very pessimistic" data-points="0">Very pessimistic</option>
-      <option value="Somewhat pessimistic" data-points="2">Somewhat pessimistic</option>
-      <option value="Somewhat optimistic" data-points="3">Somewhat optimistic</option>
-      <option value="Very optimistic" data-points="6">Very optimistic</option>
-    </select>
-  </label>
+      <label
+        >How do you usually feel about major financial decisions after making
+        them?
+        <select id="marketReaction">
+          <option value="Very pessimistic" data-points="0">
+            Very pessimistic
+          </option>
+          <option value="Somewhat pessimistic" data-points="2">
+            Somewhat pessimistic
+          </option>
+          <option value="Somewhat optimistic" data-points="3">
+            Somewhat optimistic
+          </option>
+          <option value="Very optimistic" data-points="6">
+            Very optimistic
+          </option>
+        </select>
+      </label>
 
-  <label>How do you react to market fluctuations?
-    <select id="decisionReaction">
-      <option value="Very concerned and likely to sell" data-points="0">Very concerned and likely to sell</option>
-      <option value="Likely to sell if lose 5%" data-points="2">Likely to sell if lose 5%</option>
-      <option value="Wait at least a year" data-points="4">Wait at least a year</option>
-      <option value="Stick to long-term plan" data-points="6">Stick to long-term plan</option>
-    </select>
-  </label>
+      <label
+        >How do you react to market fluctuations?
+        <select id="decisionReaction">
+          <option value="Very concerned and likely to sell" data-points="0">
+            Very concerned and likely to sell
+          </option>
+          <option value="Likely to sell if lose 5%" data-points="2">
+            Likely to sell if lose 5%
+          </option>
+          <option value="Wait at least a year" data-points="4">
+            Wait at least a year
+          </option>
+          <option value="Stick to long-term plan" data-points="6">
+            Stick to long-term plan
+          </option>
+        </select>
+      </label>
 
-  <label>The expression that best describes your attitude towards risk?
-    <select id="riskAttitude">
-      <option value="I get a thrill from taking risks" data-points="6">I get a thrill from taking risks</option>
-      <option value="I enjoy taking risks" data-points="3">I enjoy taking risks</option>
-      <option value="I evaluate carefully" data-points="1">I evaluate very carefully before taking risks</option>
-      <option value="I prefer to stay away" data-points="0">I prefer to stay away from risks</option>
-    </select>
-  </label>
+      <label
+        >The expression that best describes your attitude towards risk?
+        <select id="riskAttitude">
+          <option value="I get a thrill from taking risks" data-points="6">
+            I get a thrill from taking risks
+          </option>
+          <option value="I enjoy taking risks" data-points="3">
+            I enjoy taking risks
+          </option>
+          <option value="I evaluate carefully" data-points="1">
+            I evaluate very carefully before taking risks
+          </option>
+          <option value="I prefer to stay away" data-points="0">
+            I prefer to stay away from risks
+          </option>
+        </select>
+      </label>
 
-  <button id="generateBtn" onclick="generateAdvisory()">Generate Advisory</button>
-  <div class="loader" id="loader"></div>
+      <button id="generateBtn" onclick="generateAdvisory()">
+        Generate Advisory
+      </button>
+      <div class="loader" id="loader"></div>
 
-  <div id="output" style="display:none;">
-    <h2>Investor Profile</h2>
-    <p><strong>Name:</strong> <span id="outName"></span></p>
-    <p><strong>Age Group:</strong> <span id="outAge"></span></p>
-    <p><strong>Risk Category:</strong> <span id="outRisk"></span></p>
-    <p><strong>Total Score:</strong> <span id="outScore"></span></p>
+      <div id="output" style="display: none">
+        <h2>Investor Profile</h2>
+        <p><strong>Name:</strong> <span id="outName"></span></p>
+        <p><strong>Age Group:</strong> <span id="outAge"></span></p>
+        <p><strong>Risk Category:</strong> <span id="outRisk"></span></p>
+        <p><strong>Total Score:</strong> <span id="outScore"></span></p>
 
-    <h2>Summary</h2>
-    <p><strong>Risk Tolerance:</strong> <span id="outTolerance"></span></p>
-    <p><strong>Investment Horizon:</strong> <span id="outHorizon"></span></p>
-    <p><strong>Income Need:</strong> <span id="outIncomeNeed"></span></p>
+        <h2>Summary</h2>
+        <p><strong>Risk Tolerance:</strong> <span id="outTolerance"></span></p>
+        <p>
+          <strong>Investment Horizon:</strong> <span id="outHorizon"></span>
+        </p>
+        <p><strong>Income Need:</strong> <span id="outIncomeNeed"></span></p>
 
-    <h2>Portfolio Advisory</h2>
-    <h3>Current Allocation</h3>
-    <table id="currentAlloc"></table>
-    <h3>Suggested Allocation</h3>
-    <table id="suggestedAlloc"></table>
+        <h2>Portfolio Advisory</h2>
+        <h3>Current Allocation</h3>
+        <table id="currentAlloc"></table>
+        <h3>Suggested Allocation</h3>
+        <table id="suggestedAlloc"></table>
 
-    <h2>Action Recommendations</h2>
-    <ul id="recommendations"></ul>
-  </div>
-</div>
+        <h2>Action Recommendations</h2>
+        <ul id="recommendations"></ul>
+      </div>
+    </div>
 
-<script>
-function calculateScore() {
-  const selects = document.querySelectorAll("select");
-  let total = 0;
-  selects.forEach(sel => {
-    const points = parseInt(sel.options[sel.selectedIndex].getAttribute("data-points"));
-    total += points;
-  });
-  return total;
-}
+    <script>
+      function calculateScore() {
+        const selects = document.querySelectorAll("select");
+        let total = 0;
+        selects.forEach((sel) => {
+          const points = parseInt(
+            sel.options[sel.selectedIndex].getAttribute("data-points")
+          );
+          total += points;
+        });
+        return total;
+      }
 
-function mapScoreToCategory(score) {
-  if(score <= 28) return "Conservative Investor";
-  if(score <= 37) return "Moderately Conservative Investor";
-  if(score <= 46) return "Moderate Investor";
-  if(score <= 56) return "Moderately Aggressive Investor";
-  return "Aggressive Investor";
-}
+      function mapScoreToCategory(score) {
+        if (score <= 28) return "Conservative Investor";
+        if (score <= 37) return "Moderately Conservative Investor";
+        if (score <= 46) return "Moderate Investor";
+        if (score <= 56) return "Moderately Aggressive Investor";
+        return "Aggressive Investor";
+      }
 
-async function generateAdvisory() {
-  const loader = document.getElementById("loader");
-  const btn = document.getElementById("generateBtn");
+      async function generateAdvisory() {
+        const loader = document.getElementById("loader");
+        const btn = document.getElementById("generateBtn");
 
-  loader.style.display = "block";
-  btn.disabled = true;
-  btn.textContent = "Loading...";
-  document.getElementById("output").style.display = "none";
+        loader.style.display = "block";
+        btn.disabled = true;
+        btn.textContent = "Loading...";
+        document.getElementById("output").style.display = "none";
 
-  try {
-    const name = document.getElementById("name").value;
-    const totalScore = calculateScore();
-    const riskCategory = mapScoreToCategory(totalScore);
+        try {
+          const name = document.getElementById("name").value;
+          const totalScore = calculateScore();
+          console.log("totalScore", totalScore);
+          const riskCategory = mapScoreToCategory(totalScore);
+          // Collect questionnaire responses
+          const selects = document.querySelectorAll("select");
 
-    const selects = document.querySelectorAll("select");
-    const questionnaireInputs = {};
-    selects.forEach(sel => {
-      questionnaireInputs[sel.id] = sel.value;
-    });
+          const questionnaireInputs = {};
+          selects.forEach((sel) => {
+            questionnaireInputs[sel.id] = sel.value;
+          });
 
-    const res = await fetch("/generate-advisory", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, questionnaireInputs, totalScore, riskCategory })
-    });
+          const res = await fetch("/generate-advisory", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, questionnaireInputs, totalScore, riskCategory }),
+          });
 
-    if (!res.ok) throw new Error("Server error");
-    const data = await res.json();
-    const advisory = data.advisory;
+          if (!res.ok) throw new Error("Server error");
+          const data = await res.json();
 
-    // Investor profile
-    document.getElementById("outName").textContent = advisory.investorProfile.name;
-    document.getElementById("outAge").textContent = advisory.investorProfile.ageGroup;
-    document.getElementById("outRisk").textContent = advisory.investorProfile.riskCategory;
-    document.getElementById("outScore").textContent = advisory.investorProfile.totalScore;
+          // Extract portfolio from response
+          const portfolio = data.advisory.portfolio;
+          const profile = portfolio.investor_profile;
 
-    // Summary
-    document.getElementById("outTolerance").textContent = advisory.summary.riskTolerance;
-    document.getElementById("outHorizon").textContent = advisory.summary.investmentHorizon;
-    document.getElementById("outIncomeNeed").textContent = advisory.summary.incomeNeed;
+          // Investor Profile
+          document.getElementById("outName").textContent = name;
+          document.getElementById("outAge").textContent = profile.age;
+          document.getElementById("outRisk").textContent = profile.risk_profile;
+          document.getElementById(
+            "outScore"
+          ).textContent = `INR ${profile.investment_corpus_in_inr}`;
 
-    // Current allocation
-    const currentAlloc = document.getElementById("currentAlloc");
-    currentAlloc.innerHTML = "<tr><th>Asset Class</th><th>Allocation %</th><th>Comments</th></tr>";
-    advisory.portfolioAdvisory.currentAllocation.forEach(item => {
-      currentAlloc.innerHTML += `<tr><td>${item.assetClass}</td><td>${item.allocationPercent}%</td><td>${item.comments}</td></tr>`;
-    });
+          // Summary
+          document.getElementById("outTolerance").textContent =
+            profile.risk_profile;
+          document.getElementById(
+            "outHorizon"
+          ).textContent = `${profile.time_horizon_years} years`;
+          document.getElementById(
+            "outIncomeNeed"
+          ).textContent = `INR ${profile.investment_corpus_in_inr}`;
 
-    // Suggested allocation
-    const suggestedAlloc = document.getElementById("suggestedAlloc");
-    suggestedAlloc.innerHTML = "<tr><th>Asset Class</th><th>Recommended %</th><th>Reasoning</th></tr>";
-    advisory.portfolioAdvisory.suggestedAllocation.forEach(item => {
-      suggestedAlloc.innerHTML += `<tr><td>${item.assetClass}</td><td>${item.recommendedPercent}%</td><td>${item.reasoning}</td></tr>`;
-    });
+          // Asset Allocation Table
+          const currentAlloc = document.getElementById("currentAlloc");
+          currentAlloc.innerHTML = `
+      <tr>
+        <th>Asset Class</th>
+        <th>Allocation %</th>
+        <th>Amount (INR)</th>
+        <th>Rationale</th>
+      </tr>
+    `;
+          portfolio.asset_allocation.forEach((item) => {
+            currentAlloc.innerHTML += `
+        <tr>
+          <td>${item.asset_class}</td>
+          <td>${item.allocation_percent}%</td>
+          <td>${item.allocation_in_inr}</td>
+          <td>${item.rationale}</td>
+        </tr>
+      `;
+          });
 
-    // Recommendations
-    const recList = document.getElementById("recommendations");
-    recList.innerHTML = "";
-    advisory.actionRecommendations.forEach(rec => {
-      recList.innerHTML += `<li>${rec}</li>`;
-    });
+          // Optional: Expected Returns
+          if (portfolio.expected_return_range) {
+            const expectedReturnText = `${portfolio.expected_return_range.min_cagr_percent}% - ${portfolio.expected_return_range.max_cagr_percent}% CAGR`;
+            const expectedReturnExplanation =
+              portfolio.expected_return_range.explanation;
+            // You can add them dynamically, e.g. in the recommendations list
+            const recommendations = document.getElementById("recommendations");
+            recommendations.innerHTML = `
+        <li><strong>Expected Return:</strong> ${expectedReturnText}</li>
+        <li>${expectedReturnExplanation}</li>
+      `;
+          }
 
-    document.getElementById("output").style.display = "block";
+          // Optional: Logic Summary
+          if (portfolio.logic_summary) {
+            const logic = portfolio.logic_summary;
+            const recommendations = document.getElementById("recommendations");
+            recommendations.innerHTML += `
+        <li><strong>Diversification:</strong> ${logic.diversification}</li>
+        <li><strong>Risk-Adjusted Return:</strong> ${logic.risk_adjusted_return}</li>
+        <li><strong>Downside Protection:</strong> ${logic.downside_protection}</li>
+        <li><strong>Profile Fit:</strong> ${logic.profile_fit}</li>
+      `;
+          }
 
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong while generating advisory.");
-  } finally {
-    loader.style.display = "none";
-    btn.disabled = false;
-    btn.textContent = "Generate Advisory";
-  }
-}
-</script>
-</body>
+          document.getElementById("output").style.display = "block";
+        } catch (err) {
+          console.error(err);
+          alert("Something went wrong while generating advisory.");
+        } finally {
+          loader.style.display = "none";
+          btn.disabled = false;
+          btn.textContent = "Generate Advisory";
+        }
+      }
+    </script>
+  </body>
 </html>
